@@ -1,0 +1,10 @@
+{% extends "darkice/base.html" %}
+
+    {% block content %}
+    {% for config in configuration_list%}
+        <li>{{ config.server }}</li>
+        <li>{{ config.pk }}</li>
+        <a href=/config/{{ config.pk }}/>Detailed view</a> 
+    {% endfor %}
+
+    {% endblock %}
