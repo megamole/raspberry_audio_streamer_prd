@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.http import Http404
 from .form import PostForm
+import os
 from darkice.models import Config
 
 
@@ -8,6 +9,9 @@ def detail(request,config_id):
     #configuration=Config.objects.order_by('-pk') [0]
     configuration=Config.objects.get(pk=config_id)
     return render(request, 'darkice/detailed_config.html',{'configuration': configuration})
+
+
+
 
 def list_configuration(request):
     configuration_list=Config.objects.all()
@@ -93,3 +97,26 @@ def submit_configuration(request):
         form = PostForm()
     return render(request, 'darkice/config_edit.html', {'form': form,'configuration':configuration})
 
+
+def darkice_process(request):
+    return render(request, 'darkice/darkice_process.html')
+
+
+def start_darkice(request):
+    if request.method == 'POST':
+        os.system("darkice")
+        if (os.system("ps aux |grep -v grep| grep darkice2| awk '{print $2}'"))=="":
+            print ("no hay proceso")
+        else:
+             print ("proceso corriendo")
+    else:
+     form=PostForm()
+    return HttpResponse("Proceso arrancado")
+
+def stop_darkice(request):
+
+    if request.method == 'POST':
+        os.system("ps aux |grep -v grep| grep tail| awk '{print $2}'|xargs kill")
+    else:
+        form=PostForm()
+    return HttpResponse("Proceso detenido")

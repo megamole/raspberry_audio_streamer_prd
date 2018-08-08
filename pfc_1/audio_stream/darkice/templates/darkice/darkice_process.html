@@ -1,0 +1,13 @@
+{% extends "darkice/base.html" %}
+
+    {% block content %}
+        <h1>Proceso DARKICE</h1>
+        <form action="darkice/start" method="POST" class="post-form">
+            {% csrf_token %}           
+            <button type="submit" class="save btn btn-default">Arrancar Darkice</button>
+        </form>
+        <form action="darkice/stop" method="POST" class="post-form">
+            {% csrf_token %}           
+            <button type="submit" class="save btn btn-default">Detener Darkice</button>
+        </form>
+    {% endblock %}
