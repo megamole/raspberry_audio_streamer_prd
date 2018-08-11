@@ -8,7 +8,7 @@ from darkice.models import Config
 def detail(request,config_id):
     #configuration=Config.objects.order_by('-pk') [0]
     configuration=Config.objects.get(pk=config_id)
-    return render(request, 'darkice/detailed_config.html',{'configuration': configuration})
+    return render(request, 'darkice/detailed_config.html',{'configuration': configuration,'pk' : config_id})
 
 
 

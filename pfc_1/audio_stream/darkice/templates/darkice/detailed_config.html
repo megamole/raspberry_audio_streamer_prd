@@ -17,6 +17,8 @@
         <h4>port: {{ configuration.port }}</h4>
         <h4>mountPoint: {{ configuration.mountPoint }}</h4>
 
+        <h1><a href="/config/edit/{{ pk }}">Editar</a></h1>
+
         {% else %}
     <p>Todavia no se ha creado ninguna configuracion.</p>
     {% endif %}

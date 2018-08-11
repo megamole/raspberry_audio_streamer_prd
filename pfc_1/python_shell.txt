@@ -1,0 +1,17 @@
+leyendo de la base de datos desde el shell
+
+>>> import sqlite3
+>>> conn=sqlite3.connect('db.sqlite3')
+>>> c=conn.cursor()
+>>> c.execute("select * from darkice_config order by id desc limit 1")
+>>> print (c.fetchone())
+
+>>> from darkice.view import Config
+>>> configuracion=Config.objects.order_by('-pk') [0]
+
+
+
+
+
+
+
