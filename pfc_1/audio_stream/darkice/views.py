@@ -18,30 +18,26 @@ def list_configuration(request):
     return render(request, 'darkice/list_configuration.html',{'configuration_list': configuration_list})
 
 def edit_configuration(request,config_id):
-    file = open('config.txt','w')
     new_config=Config.objects.get(pk=config_id)
-
     if request.method == 'POST':
-       form = PostForm(request.POST)
+        form=PostForm(request.POST,instance=new_config)
 
-    if form.is_valid():
-            new_config.device=form.cleaned_data['device']
-            new_config.sampleRate=form.cleaned_data['sampleRate']
-            new_config.bitsPerSample=form.cleaned_data['bitsPerSample']
-            new_config.channel=form.cleaned_data['channel']
-            new_config.bitrateMode=form.cleaned_data['bitrateMode']
-            new_config.format1=form.cleaned_data['format1']
-            new_config.quality=form.cleaned_data['quality']
-            new_config.bitrate=form.cleaned_data['bitrate']
-            new_config.server=form.cleaned_data['server']
-            new_config.port=form.cleaned_data['port']
-            new_config.mountPoint=form.cleaned_data['mountPoint']
-            
-            new_config.save()
-            file.close()
-            # do something.
+        if form.is_valid():
+          new_config.device=form.cleaned_data['device']
+          new_config.sampleRate=form.cleaned_data['sampleRate']
+          new_config.bitsPerSample=form.cleaned_data['bitsPerSample']
+          new_config.channel=form.cleaned_data['channel']
+          new_config.bitrateMode=form.cleaned_data['bitrateMode']
+          new_config.format1=form.cleaned_data['format1']
+          new_config.quality=form.cleaned_data['quality']
+          new_config.bitrate=form.cleaned_data['bitrate']
+          new_config.server=form.cleaned_data['server']
+          new_config.port=form.cleaned_data['port']
+          new_config.mountPoint=form.cleaned_data['mountPoint']
+          new_config.save()  
     else:
-        form = PostForm()
+          form = PostForm(instance=new_config)
+
     return render(request, 'darkice/config_edit.html', {'form': form})
     
 
@@ -49,11 +45,14 @@ def submit_configuration(request):
     file = open('config.txt','w')
     #configuration=Config.objects.order_by('-pk') [0]
     configuration=Config()
+    form=PostForm(instance=Config.objects.last())
+    render(request,'darkice/config_edit.html', {'form': form,})
+
 
     if request.method == 'POST':
         form = PostForm(request.POST)
-
         if form.is_valid():
+            print("here i am")
             configuration=Config(
                 device=form.cleaned_data['device'],
                 sampleRate=form.cleaned_data['sampleRate'],
