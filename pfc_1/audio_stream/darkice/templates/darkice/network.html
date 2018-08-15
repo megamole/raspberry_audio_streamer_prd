@@ -1,0 +1,8 @@
+{% extends "darkice/base.html" %}
+
+    {% block content %}
+        <h2>Mostrando estado de la red</h2>
+        {% if  status  %} <h3>Hay conexión a internet</h3>
+        {% else %}  <h3>No hay conexión a internet</h3>
+        {% endif %}
+    {% endblock %}
