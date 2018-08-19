@@ -3,7 +3,6 @@ from django.http import Http404
 from .form import PostForm
 import os
 from darkice.models import Config
-from urllib.request import urlopen
 
 def detail(request,config_id):
     #configuration=Config.objects.order_by('-pk') [0]
@@ -120,17 +119,3 @@ def stop_darkice(request):
     #    form=PostForm()  necesito aqui otro form no PostForm()
     return HttpResponse("Proceso detenido")
 
-
-
-def internet_on():  #igual deberia crear libreria o app network para estas cosas
-   try:
-        response = urlopen('https://www.google.es/', timeout=10)
-        return True
-   except: 
-        return False
-
-def network_status(request):
-    status=internet_on()
-    return render(request, 'darkice/network.html',{'status':status}) #podria poner la template en otra carpeta, network podria ser otra app o una parte de darkice
-
-   
