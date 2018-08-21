@@ -21,10 +21,18 @@ def list_wifi(request):
         wifi_list=subprocess.run('nmcli -t  --fields SSID device wifi', shell=True, stdout=subprocess.PIPE, universal_newlines=True)
 
         #por defecto la salida del comnado va carácter a carácter por lo que hay que extraer la información línea a línea manualmente
-        wi=Wifi.objects.filter(SSID=wifi_list.stdout.split('\n')[0])
-        print(wi[0].password)
 
-        return render(request, 'network/wifi_list.html',{'wifi_list':wifi_list.stdout.split('\n')})
+        # creando una lista de las WIFI disponibles que ya tenemos en la DB y otra con las que no
+        wifi_list_on_db =[]
+        wifi_list_not_on_db=[]
+
+        for wifi_network in wifi_list.stdout.split('\n'):
+           if Wifi.objects.filter(SSID=wifi_network).exists():
+               wifi_list_on_db.append(wifi_network)
+           else: 
+               wifi_list_not_on_db.append(wifi_network)
+        
+        return render(request, 'network/wifi_list.html',{'wifi_list_on_db': wifi_list_on_db,'wifi_list_not_on_db': wifi_list_not_on_db})
 
 
 def network_status(request):

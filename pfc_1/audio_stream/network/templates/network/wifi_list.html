@@ -1,9 +1,19 @@
-{% extends "network/base.html" %}  
+{% extends "network/base.html" %} 
 
-    {% block content %}
-    {% for wifi_network in wifi_list%}
+
+
+  {% block content %}
+
+     
+    {% for wifi_network in wifi_list_on_db %}
+      <li>{{ wifi_network }}</li>
+      <h4>Esta wifi ya fue introducida</h4> 
+    {% endfor %}
+    
+    {% for wifi_network in wifi_list_not_on_db %}
         <li>{{ wifi_network }}</li>
         <a href=/network/connect>Conectar a WIFI</a> 
     {% endfor %}
 
-    {% endblock %}
+
+  {% endblock %}
