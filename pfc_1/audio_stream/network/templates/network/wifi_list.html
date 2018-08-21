@@ -1,9 +1,9 @@
 {% extends "network/base.html" %}  
 
     {% block content %}
-    {% for SSID in wifi_list%}
-        <li>{{ SSID }}</li>
-        <a href=/config/{{ config.pk }}/>Conectar a WIFI</a> 
+    {% for wifi_network in wifi_list%}
+        <li>{{ wifi_network }}</li>
+        <a href=/network/connect>Conectar a WIFI</a> 
     {% endfor %}
 
     {% endblock %}
