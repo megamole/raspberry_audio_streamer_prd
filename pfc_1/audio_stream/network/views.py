@@ -40,7 +40,7 @@ def network_status(request):
     if status:
         con_info = subprocess.check_output('nmcli con show -a', shell=True)
         stream=darkice.utils.is_connected("google.es")
-    return render(request, 'network/network.html',{'status':status,'stream':stream,'con_info':con_info})()
+    return render(request, 'network/network.html',{'status':status,'stream':stream,'con_info':con_info})
 
 
 
@@ -49,20 +49,24 @@ def existing_wifi(request, Wifi_SSID):
        print("hola")
        #connect_wifi(wifi.SSID,wifi.password)
      else:
-        submit_wifi_details(request)
+       # submit_wifi_details(request)
+       print ("buuh")
 
 
 
-def submit_wifi_details(request):
+def submit_wifi_details(request,Wifi_SSID):
+    new_wifi=Wifi()
+    new_wifi.SSID=Wifi_SSID
+    print(new_wifi.SSID)
+    new_wifi.password=""
+
     if request.method == 'POST':
-        form = WifiForm(request.POST)
+        form = WifiForm(request.POST,instance=new_wifi)
         if form.is_valid():
-            new_wifi=Wifi(
-                SSID=form.cleaned_data['SSID'],
-                password=form.cleaned_data['password'],
-            )
-        new_wifi.save()  
+           new_wifi.password=form.cleaned_data['password']
+           new_wifi.save()  
     else:
+          print("here i am")
           form = WifiForm()
 
-    return render(request, 'network/connect_wifi.html', {'form': form})
+    return render(request, 'network/connect_wifi.html', {'form': form,'wifi_SSID':Wifi_SSID})

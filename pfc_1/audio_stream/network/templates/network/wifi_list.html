@@ -12,7 +12,7 @@
     
     {% for wifi_network in wifi_list_not_on_db %}
         <li>{{ wifi_network }}</li>
-        <a href=/network/connect>Conectar a WIFI</a> 
+        <a href=/network/connect/{{ wifi_network }}>Conectar a WIFI</a> 
     {% endfor %}
 
 

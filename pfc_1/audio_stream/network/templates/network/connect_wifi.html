@@ -1,10 +1,11 @@
 {% extends "network/base.html" %}
 
     {% block content %}
-        <h1>Conectar a WIFI</h1>
-        <form method="POST" class="post-form">
+        <h1>Conectar a WIFI {{wifi_SSID}}</h1>
+        <form method="POST" class="post-form" autocomplete="off" role="presentation">
             {% csrf_token %}
-            {{ form.as_p }}            
-            <button type="submit" class="save btn btn-default">Conectar</button>
+            <input type="text" name="prevent_autofill" id="prevent_autofill" value="" style="display:none;" />
+            {{ form.password }}
+            <button type="submit" class="save btn btn-default" autocomplete=off >Conectar</button>
         </form>
     {% endblock %}
