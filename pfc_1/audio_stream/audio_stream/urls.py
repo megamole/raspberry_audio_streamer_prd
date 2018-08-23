@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from darkice.views import detail,submit_configuration,list_configuration,edit_configuration,darkice_process,stop_darkice,start_darkice
-from network.views import network_status,list_wifi,submit_wifi_details
+from network.views import network_status,list_wifi,submit_wifi_details,connect_wifi
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^network/status$', network_status, name='network_status'),    
     url(r'^network/wifi$',list_wifi , name='list_wifi'),
     url(r'^network/connect/(?P<Wifi_SSID>\w+)$',submit_wifi_details,name='submit_wifi_details'),
+    url(r'^network/connecting/(?P<Wifi_SSID>\w+)$',connect_wifi,name='connect_wifi'),
 
 
 

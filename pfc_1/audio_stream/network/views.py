@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import os
 import subprocess
-from django.http import Http404
+from django.http import Http404,HttpResponse
 from django.shortcuts import render,get_object_or_404
 from urllib.request import urlopen
 import darkice.utils
@@ -61,15 +61,24 @@ def submit_wifi_details(request,Wifi_SSID):
         print("el request es POST")
         form= WifiForm(request.POST) 
         if form.is_valid(): 
-            
+
           new_wifi.password=form.cleaned_data['password']
           new_wifi.SSID=Wifi_SSID
-          print("aqui salvando y tal")
           new_wifi.save()  
-        # entra siempre por el puto else, par
         else: raise Http404 
     
     else:
         form = WifiForm()
     
     return render(request, 'network/connect_wifi.html', {'form': form,'wifi_SSID':Wifi_SSID})
+
+
+def connect_wifi(request,Wifi_SSID):
+
+ print(Wifi_SSID)
+ wifi=Wifi.objects.get(SSID=Wifi_SSID)
+ cmd = "nmcli d wifi connect " + wifi.SSID + " password " + wifi.password
+ os.system(cmd)
+
+ 
+ return HttpResponse ("conectado a la wifi")
