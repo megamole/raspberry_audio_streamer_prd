@@ -44,7 +44,7 @@ def submit_configuration(request):
     file = open('config.txt','w')
     #configuration=Config.objects.order_by('-pk') [0]
     configuration=Config()
-    form=PostForm(instance=Config.objects.last())
+    #form=PostForm(instance=Config.objects.last())
     render(request,'darkice/config_edit.html', {'form': form,})
 
 

@@ -56,17 +56,20 @@ def existing_wifi(request, Wifi_SSID):
 
 def submit_wifi_details(request,Wifi_SSID):
     new_wifi=Wifi()
-    new_wifi.SSID=Wifi_SSID
-    print(new_wifi.SSID)
-    new_wifi.password=""
 
-    if request.method == 'POST':
-        form = WifiForm(request.POST,instance=new_wifi)
-        if form.is_valid():
-           new_wifi.password=form.cleaned_data['password']
-           new_wifi.save()  
+    if request.method == "POST":
+        print("el request es POST")
+        form= WifiForm(request.POST) 
+        if form.is_valid(): 
+            
+          new_wifi.password=form.cleaned_data['password']
+          new_wifi.SSID=Wifi_SSID
+          print("aqui salvando y tal")
+          new_wifi.save()  
+        # entra siempre por el puto else, par
+        else: raise Http404 
+    
     else:
-          print("here i am")
-          form = WifiForm()
-
+        form = WifiForm()
+    
     return render(request, 'network/connect_wifi.html', {'form': form,'wifi_SSID':Wifi_SSID})
