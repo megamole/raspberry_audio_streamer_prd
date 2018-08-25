@@ -1,9 +1,11 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse,redirect
 from django.http import Http404
 from .form import PostForm
 import os
+import io
 import subprocess
 import time
+from django.contrib import messages
 from darkice.models import Config
 
 def detail(request,config_id):
@@ -112,13 +114,35 @@ def apply (request,config_id):
             )
     file.close()
 
-    if (os.s)
+    command="darkice -c " + file_name
+   
+    os.system("pkill darkice")
+
+    # arrancamos el darkice, si arranca correctamente no habrá mensaje de error
+
+    p=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    #for line in io.TextIOWrapper(p.stdout, encoding="utf-8"):
+                  #messages.info(request,p.line)
+    
+    if subprocess.Popen("ps aux |grep -v grep| grep darkice",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0]!=b'':
+
+        return HttpResponse("La configuracion se ha aplicado correctamente")
+    
+    else:
+        #se puede mejorar la presentacion del mensaje de error
+        messages.info(request, 'Error al intentar arrancer DARKICE')
+        messages.info(request,p.stdout.readlines()[-1])
+        return redirect("/config_list/")
 
 
 
 
 
-    return HttpResponse("Aplicando configuracion")
+
+
+
+
+
 
 
 def start_darkice(request):
