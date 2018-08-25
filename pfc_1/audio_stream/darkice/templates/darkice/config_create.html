@@ -1,0 +1,30 @@
+{% extends "darkice/base.html" %}
+
+    {% block content %}
+        <h1>Crear configuracion DARKICE</h1>
+
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+
+            <h3>[input]</h3>
+    
+            <h4>device: {{ form.device }}</h4>
+            <h4>sampleRate: {{ form.sampleRate }}</h4>
+            <h4>bitsPerSample: {{ form.bitsPerSample }}</h4>
+            <h4>channel: {{ form.channel }}</h4>
+    
+            <h3>[icecast2-0]</h3>
+    
+            <h4>bitrateMode: {{ form.bitrateMode }}</h4>
+            <h4>format: {{ form.format }}</h4>
+            <h4>quality: {{ form.quality }}</h4>
+            <h4>bitrate: {{ form.bitrate }}</h4>
+            <h4>channel_icecast: {{ form.channel_icecast }}</h4>
+            <h4>server: {{ form.server }}</h4>
+            <h4>port: {{ form.port }}</h4>
+            <h4>mountPoint: {{ form.mountPoint }}</h4>
+            <button type="submit" class="save btn btn-default">Guardar</button>
+            <button onclick="window.history.back();" class="btn btn-default" type="button">Cancelar</button>
+       </form>
+       
+    {% endblock %}

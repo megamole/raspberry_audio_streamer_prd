@@ -1,0 +1,10 @@
+{% extends "darkice/base.html" %}
+
+    {% block content %}
+        <form action="/config/delete/{{ configuration.pk }}" method="post">
+            {% csrf_token %}
+            <p>¿Seguro que quiere borrar la configuración {{ configuration.name}} ?</p>
+            <input class="btn btn-primary" type="submit" value="Confirmar"/>
+            <button onclick="window.history.back();" class="btn btn-default" type="button">Cancelar</button>
+        </form>
+    {% endblock %}

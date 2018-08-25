@@ -51,7 +51,7 @@ def edit_configuration(request,config_id):
 def submit_configuration(request):
     #configuration=Config.objects.order_by('-pk') [0]
     configuration=Config()
-    #form=PostForm(instance=Config.objects.last())
+    form=PostForm()
     #render(request,'darkice/config_edit.html', {'form': form,})
 
 
@@ -64,9 +64,10 @@ def submit_configuration(request):
                 bitsPerSample=form.cleaned_data['bitsPerSample'],
                 channel=form.cleaned_data['channel'],
                 bitrateMode=form.cleaned_data['bitrateMode'],
-                format1=form.cleaned_data['format1'],
+                format=form.cleaned_data['format'],
                 quality=form.cleaned_data['quality'],
                 bitrate=form.cleaned_data['bitrate'],
+                channel_icecast=form.cleaned_data['channel_icecast'],
                 server=form.cleaned_data['server'],
                 port=form.cleaned_data['port'],
                 mountPoint=form.cleaned_data['mountPoint'],
@@ -76,7 +77,7 @@ def submit_configuration(request):
             # do something.
     else:
         form = PostForm()
-    return render(request, 'darkice/config_edit.html', {'form': form,'configuration':configuration})
+    return render(request, 'darkice/config_create.html', {'form': form,'configuration':configuration})
 
 
 def darkice_process(request):
@@ -98,7 +99,7 @@ def apply (request,config_id):
                 '\n'+'bitsPerSample   = '+str(configuration.bitsPerSample)+'\n'+
                 'channel         = '+str(configuration.channel)+
                 '\n\n[icecast2-0]\n'+
-                'format          = '+configuration.format1+'\n'+
+                'format          = '+configuration.format+'\n'+
                 'bitrate         = '+str(configuration.bitrate)+'\n'+
                 'bitrateMode     = '+configuration.bitrateMode+'\n'+
                 'quality         = '+str(configuration.quality)+'\n'+
@@ -141,6 +142,16 @@ def apply (request,config_id):
 
 
 
+def delete_config (request,config_id):
+    configuration=Config.objects.get(pk=config_id)
+    #Config.objects.get(pk=config_id).delete()
+    return render(request, 'darkice/config_delete.html', {'configuration':configuration})
+
+
+def delete (request,config_id):
+    #if request.method == 'POST':
+    Config.objects.get(pk=config_id).delete()
+    return redirect("/config_list/")
 
 
 

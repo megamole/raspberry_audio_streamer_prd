@@ -1,14 +1,21 @@
 {% extends "darkice/base.html" %}
 
     {% block content %}
-    {% for config in configuration_list%}
-        <li>Nombre: {{ config.name }}</li>
-        <li>URL Icecast: {{ config.server }}</li>
-        <form action="apply/{{ config.pk }}" method="POST" class="post-form">
-            {% csrf_token %}           
-            <button type="submit" class="save btn btn-default">Aplicar</button>
-        </form>
-        <a href=/config/{{ config.pk }}/>Detailed view</a> 
-    {% endfor %}
+
+        {% if configuration_list %}
+            {% for config in configuration_list%}
+                <li>Nombre: {{ config.name }}</li>
+                <li>URL Icecast: {{ config.server }}</li>
+                <form action="apply/{{ config.pk }}" method="POST" class="post-form">
+                {% csrf_token %}           
+                <button type="submit" class="save btn btn-default">Aplicar</button>
+                </form>
+        
+              <a href=/config/{{ config.pk }}/>Detailed view</a> 
+            {% endfor %}
+        {% else %}
+            <li>No hay ninguna configuración creada</li>
+            <a href=/config/new/>Crear configuracion</a> 
+        {% endif %}
 
     {% endblock %}

@@ -5,6 +5,8 @@
         <h1>Configuracion DARKICE {{ configuration.name}}</h1>
 
         <h3>[input]</h3>
+        <h3></h3>
+
 
         <h4>device: {{ configuration.device }}</h4>
         <h4>sampleRate: {{ configuration.sampleRate }}</h4>
@@ -12,6 +14,7 @@
         <h4>channel: {{ configuration.channel }}</h4>
 
         <h3>[icecast2-0]</h3>
+        <h3></h3>
 
         <h4>bitrateMode: {{ configuration.bitrateMode }}</h4>
         <h4>format: {{ configuration.format }}</h4>
@@ -23,7 +26,8 @@
         <h4>mountPoint: {{ configuration.mountPoint }}</h4>
 
         <h1><a href="/config/edit/{{ pk }}">Editar</a></h1>
-
+        <h1><a href="/config/delete_config/{{ pk }}">Borrar</a></h1>
+       
         {% else %}
     <p>Todavia no se ha creado ninguna configuracion.</p>
     {% endif %}
