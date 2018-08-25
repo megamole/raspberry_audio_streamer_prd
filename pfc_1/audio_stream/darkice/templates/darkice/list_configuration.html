@@ -2,8 +2,8 @@
 
     {% block content %}
     {% for config in configuration_list%}
-        <li>{{ config.server }}</li>
-        <li>{{ config.pk }}</li>
+        <li>Nombre: {{ config.name }}</li>
+        <li>URL Icecast: {{ config.server }}</li>
         <a href=/config/{{ config.pk }}/>Detailed view</a> 
     {% endfor %}
 

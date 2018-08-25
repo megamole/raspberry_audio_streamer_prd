@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse
 from django.http import Http404
 from .form import PostForm
 import os
+import subprocess
+import time
 from darkice.models import Config
 
 def detail(request,config_id):
@@ -22,6 +24,8 @@ def edit_configuration(request,config_id):
         form=PostForm(request.POST,instance=new_config)
 
         if form.is_valid():
+          file = open('config.txt','w')
+  
           new_config.device=form.cleaned_data['device']
           new_config.sampleRate=form.cleaned_data['sampleRate']
           new_config.bitsPerSample=form.cleaned_data['bitsPerSample']
@@ -34,6 +38,30 @@ def edit_configuration(request,config_id):
           new_config.port=form.cleaned_data['port']
           new_config.mountPoint=form.cleaned_data['mountPoint']
           new_config.save()  
+          file.write('[general]\n'+'duration        = 0\n'+
+                'bufferSecs      = 1\n'+'reconnect       = yes\n'+'\n[input]\n'+
+                'device          = '+new_config.device+
+                '\n'+'sampleRate      = '+str(new_config.sampleRate)+
+                '\n'+'bitsPerSample   = '+str(new_config.bitsPerSample)+'\n'+
+                'channel         = '+str(new_config.channel)+
+                '\n\n[icecast2-0]\n'+
+                'format          = '+new_config.format1+'\n'+
+                'bitrate         = '+str(new_config.bitrate)+'\n'+
+                'bitrateMode     = '+new_config.bitrateMode+'\n'+
+                'quality         = '+str(new_config.quality)+'\n'+
+                'channel         = '+str(new_config.channel)+
+                '\nlowpass         = 5000\n'+
+                'server          = '+new_config.server+'\n'+
+                'port            = '+str(new_config.port)+'\n'+
+                'password        = '+new_config.password+'\n'+
+                'mountPoint      = '+new_config.mountPoint+
+                '\nname            = mystream'+ 
+                '\ndescription     ='+  
+                '\nurl             = localhost'+
+                '\ngenre           = Scanner'+
+                '\npublic          = yes'
+            )
+          file.close()
     else:
           form = PostForm(instance=new_config)
 
@@ -41,16 +69,16 @@ def edit_configuration(request,config_id):
     
 
 def submit_configuration(request):
-    file = open('config.txt','w')
     #configuration=Config.objects.order_by('-pk') [0]
     configuration=Config()
     #form=PostForm(instance=Config.objects.last())
-    render(request,'darkice/config_edit.html', {'form': form,})
+    #render(request,'darkice/config_edit.html', {'form': form,})
 
 
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
+            file = open('config.txt','w')
             print("here i am")
             configuration=Config(
                 device=form.cleaned_data['device'],
@@ -103,8 +131,10 @@ def darkice_process(request):
 def start_darkice(request):
     if request.method == 'POST':
         os.system("darkice")
-        if (os.system("ps aux |grep -v grep| grep darkice2| awk '{print $2}'"))=="":
-            print ("no hay proceso")
+        #time.sleep(10)
+        if subprocess.Popen("ps aux |grep -v grep| grep darkice2| awk '{print $2}'",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0]==b'':
+        #if (os.system("ps aux |grep -v grep| grep darkice2| awk '{print $2}'"))=="":
+            print ("proceso no arrancado correctamente")
         else:
              print ("proceso corriendo")
     #else:
@@ -114,7 +144,9 @@ def start_darkice(request):
 def stop_darkice(request):
 
     if request.method == 'POST':
-        os.system("ps aux |grep -v grep| grep tail| awk '{print $2}'|xargs kill")
+        #os.system("ps aux |grep -v grep| grep darkice| awk '{print $2}'|xargs kill")
+        os.system("pkill darkice2")
+
     #else:
     #    form=PostForm()  necesito aqui otro form no PostForm()
     return HttpResponse("Proceso detenido")

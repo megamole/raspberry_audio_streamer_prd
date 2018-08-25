@@ -24,6 +24,7 @@ urlpatterns = [
     #url(r'^config/<int:config_id>/', detail, name='detail'),
     url(r'^config/(\d+)/$', detail, name='detail'),
     url(r'^config/edit/(\d+)/$', edit_configuration, name='edit_configuration'),
+    #url(r'^config/edit/(?P<name>\w+)$', edit_configuration, name='edit_configuration'),
     url(r'^config_list/$', list_configuration, name='list_configuration'),
     url(r'^config/new/$', submit_configuration, name='submit_configuration'),
     url(r'^darkice/$', darkice_process, name='darkice_process'),
