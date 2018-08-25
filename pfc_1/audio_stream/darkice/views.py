@@ -24,7 +24,6 @@ def edit_configuration(request,config_id):
         form=PostForm(request.POST,instance=new_config)
 
         if form.is_valid():
-          file = open('config.txt','w')
   
           new_config.device=form.cleaned_data['device']
           new_config.sampleRate=form.cleaned_data['sampleRate']
@@ -38,30 +37,7 @@ def edit_configuration(request,config_id):
           new_config.port=form.cleaned_data['port']
           new_config.mountPoint=form.cleaned_data['mountPoint']
           new_config.save()  
-          file.write('[general]\n'+'duration        = 0\n'+
-                'bufferSecs      = 1\n'+'reconnect       = yes\n'+'\n[input]\n'+
-                'device          = '+new_config.device+
-                '\n'+'sampleRate      = '+str(new_config.sampleRate)+
-                '\n'+'bitsPerSample   = '+str(new_config.bitsPerSample)+'\n'+
-                'channel         = '+str(new_config.channel)+
-                '\n\n[icecast2-0]\n'+
-                'format          = '+new_config.format1+'\n'+
-                'bitrate         = '+str(new_config.bitrate)+'\n'+
-                'bitrateMode     = '+new_config.bitrateMode+'\n'+
-                'quality         = '+str(new_config.quality)+'\n'+
-                'channel         = '+str(new_config.channel)+
-                '\nlowpass         = 5000\n'+
-                'server          = '+new_config.server+'\n'+
-                'port            = '+str(new_config.port)+'\n'+
-                'password        = '+new_config.password+'\n'+
-                'mountPoint      = '+new_config.mountPoint+
-                '\nname            = mystream'+ 
-                '\ndescription     ='+  
-                '\nurl             = localhost'+
-                '\ngenre           = Scanner'+
-                '\npublic          = yes'
-            )
-          file.close()
+
     else:
           form = PostForm(instance=new_config)
 
@@ -78,8 +54,6 @@ def submit_configuration(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            file = open('config.txt','w')
-            print("here i am")
             configuration=Config(
                 device=form.cleaned_data['device'],
                 sampleRate=form.cleaned_data['sampleRate'],
@@ -93,7 +67,27 @@ def submit_configuration(request):
                 port=form.cleaned_data['port'],
                 mountPoint=form.cleaned_data['mountPoint'],
             )
-            file.write('[general]\n'+'duration        = 0\n'+
+            
+            form.save()
+            # do something.
+    else:
+        form = PostForm()
+    return render(request, 'darkice/config_edit.html', {'form': form,'configuration':configuration})
+
+
+def darkice_process(request):
+    return render(request, 'darkice/darkice_process.html')
+
+
+
+def apply (request,config_id):
+    # aplicamos la configuracion, para ello paremos el darkice y lo arrancamos con los nuevos valores
+    #creamos el fichero de configuración y arrancamos el darkice con el nuevo fichero
+
+    file_name="darkice_" + config_id + ".cfg"
+    configuration=Config.objects.get(pk=config_id)
+    file = open(file_name,'w')
+    file.write('[general]\n'+'duration        = 0\n'+
                 'bufferSecs      = 1\n'+'reconnect       = yes\n'+'\n[input]\n'+
                 'device          = '+configuration.device+
                 '\n'+'sampleRate      = '+str(configuration.sampleRate)+
@@ -116,16 +110,15 @@ def submit_configuration(request):
                 '\ngenre           = Scanner'+
                 '\npublic          = yes'
             )
-            form.save()
-            file.close()
-            # do something.
-    else:
-        form = PostForm()
-    return render(request, 'darkice/config_edit.html', {'form': form,'configuration':configuration})
+    file.close()
+
+    if (os.s)
 
 
-def darkice_process(request):
-    return render(request, 'darkice/darkice_process.html')
+
+
+
+    return HttpResponse("Aplicando configuracion")
 
 
 def start_darkice(request):

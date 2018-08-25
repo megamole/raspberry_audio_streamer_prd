@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url
-from darkice.views import detail,submit_configuration,list_configuration,edit_configuration,darkice_process,stop_darkice,start_darkice
+from darkice.views import detail,submit_configuration,list_configuration,edit_configuration,darkice_process,stop_darkice,start_darkice,apply
 from network.views import network_status,list_wifi,submit_wifi_details,connect_wifi
 
 urlpatterns = [
@@ -27,6 +27,7 @@ urlpatterns = [
     #url(r'^config/edit/(?P<name>\w+)$', edit_configuration, name='edit_configuration'),
     url(r'^config_list/$', list_configuration, name='list_configuration'),
     url(r'^config/new/$', submit_configuration, name='submit_configuration'),
+    url(r'^config_list/apply/(\d+)$', apply, name='apply'),
     url(r'^darkice/$', darkice_process, name='darkice_process'),
     url(r'^darkice/stop$', stop_darkice, name='stop_darkice'),
     url(r'^darkice/start$', start_darkice, name='start_darkice'),

@@ -4,6 +4,10 @@
     {% for config in configuration_list%}
         <li>Nombre: {{ config.name }}</li>
         <li>URL Icecast: {{ config.server }}</li>
+        <form action="apply/{{ config.pk }}" method="POST" class="post-form">
+            {% csrf_token %}           
+            <button type="submit" class="save btn btn-default">Aplicar</button>
+        </form>
         <a href=/config/{{ config.pk }}/>Detailed view</a> 
     {% endfor %}
 
