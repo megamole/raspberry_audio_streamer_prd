@@ -4,15 +4,20 @@
     {% if configuration %}
         <h1>Configuracion DARKICE {{ configuration.name}}</h1>
 
+        <h3>[input]</h3>
 
         <h4>device: {{ configuration.device }}</h4>
         <h4>sampleRate: {{ configuration.sampleRate }}</h4>
         <h4>bitsPerSample: {{ configuration.bitsPerSample }}</h4>
         <h4>channel: {{ configuration.channel }}</h4>
+
+        <h3>[icecast2-0]</h3>
+
         <h4>bitrateMode: {{ configuration.bitrateMode }}</h4>
-        <h4>format1: {{ configuration.format1 }}</h4>
+        <h4>format: {{ configuration.format }}</h4>
         <h4>quality: {{ configuration.quality }}</h4>
         <h4>bitrate: {{ configuration.bitrate }}</h4>
+        <h4>channel_icecast: {{ configuration.channel_icecast }}</h4>
         <h4>server: {{ configuration.server }}</h4>
         <h4>port: {{ configuration.port }}</h4>
         <h4>mountPoint: {{ configuration.mountPoint }}</h4>

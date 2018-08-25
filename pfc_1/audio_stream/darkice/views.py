@@ -3,6 +3,7 @@ from django.http import Http404
 from .form import PostForm
 import os
 import io
+import re
 import subprocess
 import time
 from django.contrib import messages
@@ -32,9 +33,10 @@ def edit_configuration(request,config_id):
           new_config.bitsPerSample=form.cleaned_data['bitsPerSample']
           new_config.channel=form.cleaned_data['channel']
           new_config.bitrateMode=form.cleaned_data['bitrateMode']
-          new_config.format1=form.cleaned_data['format1']
+          new_config.format=form.cleaned_data['format']
           new_config.quality=form.cleaned_data['quality']
           new_config.bitrate=form.cleaned_data['bitrate']
+          new_config.channel_icecast=form.cleaned_data['channel_icecast']
           new_config.server=form.cleaned_data['server']
           new_config.port=form.cleaned_data['port']
           new_config.mountPoint=form.cleaned_data['mountPoint']
@@ -100,7 +102,7 @@ def apply (request,config_id):
                 'bitrate         = '+str(configuration.bitrate)+'\n'+
                 'bitrateMode     = '+configuration.bitrateMode+'\n'+
                 'quality         = '+str(configuration.quality)+'\n'+
-                'channel         = '+str(configuration.channel)+
+                'channel         = '+str(configuration.channel_icecast)+
                 '\nlowpass         = 5000\n'+
                 'server          = '+configuration.server+'\n'+
                 'port            = '+str(configuration.port)+'\n'+
