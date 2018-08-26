@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^darkice/start$', start_darkice, name='start_darkice'),
     url(r'^network/status$', network_status, name='network_status'),    
     url(r'^network/wifi$',list_wifi , name='list_wifi'),
-    url(r'^network/connect/(?P<Wifi_SSID>\w+)$',submit_wifi_details,name='submit_wifi_details'),
+    url(r'^network/connect/(?P<Wifi_SSID>[\w\-]+.+.)$',submit_wifi_details,name='submit_wifi_details'),
     url(r'^network/connecting/(?P<Wifi_SSID>\w+)$',connect_wifi,name='connect_wifi'),
 
 

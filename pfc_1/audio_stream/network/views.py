@@ -78,7 +78,7 @@ def connect_wifi(request,Wifi_SSID):
  print(Wifi_SSID)
  wifi=Wifi.objects.get(SSID=Wifi_SSID)
  cmd = "nmcli d wifi connect " + wifi.SSID + " password " + wifi.password
- os.system(cmd)
-
- 
- return HttpResponse ("conectado a la wifi")
+ if b'failed:' in subprocess.check_output(cmd,shell=True).split():
+    return HttpResponse ("conexion fallida")
+ else:
+    return HttpResponse ("Conectado a " + Wifi_SSID)
