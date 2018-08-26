@@ -51,7 +51,6 @@ def edit_configuration(request,config_id):
 def submit_configuration(request):
     #configuration=Config.objects.order_by('-pk') [0]
     configuration=Config()
-    form=PostForm()
     #render(request,'darkice/config_edit.html', {'form': form,})
 
 

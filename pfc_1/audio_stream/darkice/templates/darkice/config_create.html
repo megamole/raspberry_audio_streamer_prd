@@ -9,20 +9,46 @@
             <h3>[input]</h3>
     
             <h4>device: {{ form.device }}</h4>
+            <span>{{ form.device.help_text }}</span>
             <h4>sampleRate: {{ form.sampleRate }}</h4>
+            <div>{{ form.samplerate.help_text }}</div>
+
             <h4>bitsPerSample: {{ form.bitsPerSample }}</h4>
+            <div>{{ form.bitsPerSample.help_text }}</div>
+
             <h4>channel: {{ form.channel }}</h4>
+            <div>{{ form.channel.help_text }}</div>
+
     
             <h3>[icecast2-0]</h3>
     
             <h4>bitrateMode: {{ form.bitrateMode }}</h4>
-            <h4>format: {{ form.format }}</h4>
-            <h4>quality: {{ form.quality }}</h4>
+            <div>{{ form.bitrateMode.help_text }}</div>
+
+            <h4>format: {{ form.format }}</h4>            
+            <div>{{ form.format.help_text }}</div>
+
+            <h4>quality: {{ form.quality }}</h4>            
+            <div>{{ form.quality.help_text }}</div>
+
+
             <h4>bitrate: {{ form.bitrate }}</h4>
+            <div>{{ form.bitrate.help_text }}</div>
+
             <h4>channel_icecast: {{ form.channel_icecast }}</h4>
+            <div>{{ form.channel_icecast.help_text }}</div>
+
             <h4>server: {{ form.server }}</h4>
-            <h4>port: {{ form.port }}</h4>
+            <div>{{ form.server.help_text }}</div>
+
+            <h4>port: {{ form.port }}</h4>            
+            <div>{{ form.port.help_text }}</div>
+                
+
             <h4>mountPoint: {{ form.mountPoint }}</h4>
+            <div>{{ form.mountPoint.help_text }}</div>
+
+
             <button type="submit" class="save btn btn-default">Guardar</button>
             <button onclick="window.history.back();" class="btn btn-default" type="button">Cancelar</button>
        </form>
