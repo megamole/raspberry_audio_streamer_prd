@@ -1,14 +1,41 @@
 {% extends "network/base.html" %}
+{% load custom_tags%} 
 
     {% block content %}
         <h2>Mostrando estado de la red</h2>
-        {% if  status  %} <h3>Hay conexión a internet</h3>
+        {% if  status  %}
+        
+        <h3>Conexión a internet</h3>
+            <style>
+            .square {
+            height: 50px;
+            width: 50px;
+            background-color: rgb(67, 145, 51);
+            }
+            </style>
+           <div class="square"></div>
            {% if  stream  %}  
               <h3>La URL de streaming es alcanzable</h3>
-              <h4>[NOMBRE]           [UUID]                     [TIPO]     [DISPOSITIVO]</h4>
-              {% for line in con_info %}
-               <h6>{{ line }}</h6>
-              {% endfor %}
+
+              <table style="width:100%">
+                    <tr>
+                      <th>NOMBRE</th>
+                      <th>TIPO</th>
+
+                    </tr>
+                {% for name in name_connection %}  
+                {% for type in type_connection %} 
+                    <tr>
+                      <td>{{ name}}</td>
+                      <td>{{ type}}</td>
+                    </tr>
+                {% endfor %}
+                {% endfor %}
+            </table> 
+
+              
+
+
               
 
         {% else %}  <h3>La URL de streaming no es alcanzable</h3>

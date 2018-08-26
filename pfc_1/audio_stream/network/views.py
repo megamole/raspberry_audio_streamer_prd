@@ -56,15 +56,18 @@ def network_status(request):
     if status:
         i=0
         con_info=[]
+        name_connection=[]
+        type_connection=[]
         while i<active_connections:
              #con_info = subprocess.check_output('nmcli con show -a', shell=True).decode().split('\n')[i++]
              con_info.append(subprocess.check_output('nmcli con show -a', shell=True).decode().split('\n')[i+1])
+             name_connection.append(con_info[i].split()[0])
+             type_connection.append(con_info[i].split()[3])
              i += 1
-
 
        #El nombre de la conexión también se obtiene con ubprocess.Popen("nmcli con show -a", shell=True, stdout=subprocess.PIPE).communicate()[0].decode().split()[4]
              stream=darkice.utils.is_connected("google.es")
-    return render(request, 'network/network.html',{'status':status,'stream':stream,'con_info':con_info,'active_connections':active_connections})
+    return render(request, 'network/network.html',{'status':status,'stream':stream,'name_connection':name_connection,'type_connection':type_connection})
 
 
 def existing_wifi(request, Wifi_SSID):
