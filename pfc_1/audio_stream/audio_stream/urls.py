@@ -14,14 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.views.generic.base import TemplateView
 from django.conf.urls import url
 from darkice.views import detail,submit_configuration,list_configuration,edit_configuration,darkice_process,stop_darkice,start_darkice,apply,delete,delete_config
-from network.views import network_status,list_wifi,submit_wifi_details,connect_wifi
+from network.views import network_status,list_wifi,submit_wifi_details,connect_wifi,index
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^config/$', index, name='index'),
     #url(r'^config/<int:config_id>/', detail, name='detail'),
+    url(r'^$', index, name='index'),
+
     url(r'^config/(\d+)/$', detail, name='detail'),
     url(r'^config/delete/(\d+)$', delete, name='delete'),
     url(r'^config/edit/(\d+)/$', edit_configuration, name='edit_configuration'),

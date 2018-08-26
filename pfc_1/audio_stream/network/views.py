@@ -3,11 +3,24 @@ from __future__ import unicode_literals
 import os
 import subprocess
 from django.http import Http404,HttpResponse
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from urllib.request import urlopen
 import darkice.utils
 from network.models import Wifi,__str__
 from network.form import WifiForm
+
+
+
+
+def index (request):
+        return render(request, 'network/index.html')
+
+
+
+
+
+
+
 
 
 def internet_on():  #igual deberia crear libreria o app network para estas cosas
@@ -37,11 +50,21 @@ def list_wifi(request):
 
 def network_status(request):
     status=internet_on()
-    if status:
-        con_info = subprocess.check_output('nmcli con show -a', shell=True)
-        stream=darkice.utils.is_connected("google.es")
-    return render(request, 'network/network.html',{'status':status,'stream':stream,'con_info':con_info})
 
+    active_connections=int(subprocess.check_output('nmcli con show -a|wc -l', shell=True).decode().split()[0])-1
+
+    if status:
+        i=0
+        con_info=[]
+        while i<active_connections:
+             #con_info = subprocess.check_output('nmcli con show -a', shell=True).decode().split('\n')[i++]
+             con_info.append(subprocess.check_output('nmcli con show -a', shell=True).decode().split('\n')[i+1])
+             i += 1
+
+
+       #El nombre de la conexión también se obtiene con ubprocess.Popen("nmcli con show -a", shell=True, stdout=subprocess.PIPE).communicate()[0].decode().split()[4]
+             stream=darkice.utils.is_connected("google.es")
+    return render(request, 'network/network.html',{'status':status,'stream':stream,'con_info':con_info,'active_connections':active_connections})
 
 
 def existing_wifi(request, Wifi_SSID):
@@ -54,31 +77,40 @@ def existing_wifi(request, Wifi_SSID):
 
 
 
+
+
+
+def connect_wifi(request,Wifi_SSID):
+
+ wifi=Wifi.objects.get(SSID=Wifi_SSID)
+ cmd = "nmcli d wifi connect " + wifi.SSID + " password " + wifi.password
+ output=subprocess.check_output(cmd,shell=True)
+
+ if b'failed:' in output.split():
+    wifi.delete()
+    return redirect('/network/wifi') 
+ else:
+    return HttpResponse ("Conectado a " + Wifi_SSID)
+
+
+
 def submit_wifi_details(request,Wifi_SSID):
     new_wifi=Wifi()
 
     if request.method == "POST":
-        print("el request es POST")
         form= WifiForm(request.POST) 
         if form.is_valid(): 
 
           new_wifi.password=form.cleaned_data['password']
           new_wifi.SSID=Wifi_SSID
-          new_wifi.save()  
+          new_wifi.save()
+          connect_wifi(request,Wifi_SSID)
+          return redirect('/network/status') 
+
+
         else: raise Http404 
     
     else:
         form = WifiForm()
     
     return render(request, 'network/connect_wifi.html', {'form': form,'wifi_SSID':Wifi_SSID})
-
-
-def connect_wifi(request,Wifi_SSID):
-
- print(Wifi_SSID)
- wifi=Wifi.objects.get(SSID=Wifi_SSID)
- cmd = "nmcli d wifi connect " + wifi.SSID + " password " + wifi.password
- if b'failed:' in subprocess.check_output(cmd,shell=True).split():
-    return HttpResponse ("conexion fallida")
- else:
-    return HttpResponse ("Conectado a " + Wifi_SSID)
