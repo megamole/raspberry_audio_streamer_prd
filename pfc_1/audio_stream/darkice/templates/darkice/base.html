@@ -2,7 +2,7 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <div class="page-header">
-        <h1><a href="./index.html">Menu principal</a></h1>
+        <h1><a href="/">Menu principal</a></h1>
     </div>
     <div class="content container">
         <div class="row">
@@ -12,11 +12,7 @@
             </div>
         </div>
     </div>
-    {% if messages %}
-    {% for message in messages %}
-      <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
-    {% endfor %}
-  {% endif %}
+ 
 
   {% if form.errors %}
     <div class="alert alert-error">

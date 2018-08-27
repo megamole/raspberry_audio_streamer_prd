@@ -3,47 +3,106 @@
 
     {% block content %}
         <h2>Mostrando estado de la red</h2>
-        {% if  status  %}
-        
-        <h3>Conexión a internet</h3>
-            <style>
-            .square {
-            height: 50px;
-            width: 50px;
-            background-color: rgb(67, 145, 51);
-            }
-            </style>
-           <div class="square"></div>
-           {% if  stream  %}  
-              <h3>La URL de streaming es alcanzable</h3>
+ 
+        <head>
+                <style>
+                    .reddot {
+                        height: 25px;
+                        width: 25px;
+                        background-color:  	#FF0000;
+                        border-radius: 50%;
+                        display: inline-block;
+                        
+                </style>
 
-              <table style="width:100%">
-                    <tr>
-                      <th>NOMBRE</th>
-                      <th>TIPO</th>
+                <style>
+                        .greendot {
+                            height: 25px;
+                            width: 25px;
+                            background-color:  	#4CAF50;
+                            border-radius: 50%;
+                            display: inline-block;
+                            }
+                    </style>
+                                
+                
+                <style>
+                    table {
+                        border-collapse: collapse;
+                        border: 1px solid black;
+                        width: 100%;
+                    }
+                    
+                    th, td {
+                        text-align: left;
+                        padding: 8px;
+                        border: 1px solid black;
 
-                    </tr>
-                {% for name in name_connection %}  
-                {% for type in type_connection %} 
-                    <tr>
-                      <td>{{ name}}</td>
-                      <td>{{ type}}</td>
-                    </tr>
-                {% endfor %}
-                {% endfor %}
-            </table> 
+                    }
+                    
+                    tr:nth-child(even){background-color: #f2f2f2}
+                    
+                    th {
+                        background-color: rgb(48, 5, 206);
+                        border: 1px solid black;
+
+                        color: white;
+                    }
+                </style>
+        </head>
+        <body>
+                
+                <h2>Estado de la red</h2>
+                
+                <table>
+                  <tr>
+                    <th>TIPO DE CONEXION</th>
+                    <th>ESTADO</th>
+                  </tr>
+                  <tr>
+                           <td>INTERNET</td>
+                        {% if  status  %}
+                            <td><span class="greendot"></span></td>
+                        {% else %}
+                            <td><span class="reddot"></span></td>
+                        {% endif %}
+                   </tr>
+                   <tr>
+                           <td>URL de Icecast</td>
+                         {% if  stream  %} 
+                           <td><span class="greendot"></span></td>
+                         {% else %}  
+                            <td><span class="reddot"></span></td>
+                         {% endif %}
+
+
+     
+             
+                </table> 
+         <body>
+
+
+            <body>
+                    
+                    <h2>Conexiones de red activas</h2>
+                    
+                    <table>
+                      <tr>
+                        <th>NOMBRE DE RED</th>
+                        <th>TIPO</th>
+                      </tr>
+                      <tr>
+                            {% for name in name_connection %}  
+                            {% for type in type_connection %} 
+                                  <td>{{ name}}</td>
+                                  <td>{{ type}}</td>
+                            {% endfor %}
+                            {% endfor %}
+
+                      </tr>
+                 
+                    </table> 
+             <body>
 
               
-
-
-              
-
-        {% else %}  <h3>La URL de streaming no es alcanzable</h3>
-
-           {% endif %}
-        {% else %}  
-           <h3>No hay conexión a internet</h3>
-           <h3>Editar configuracion de red</h3>
-
-        {% endif %}
     {% endblock %}
