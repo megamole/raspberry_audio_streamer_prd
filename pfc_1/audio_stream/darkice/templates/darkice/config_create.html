@@ -5,6 +5,8 @@
 
         <form method="POST" class="post-form">
             {% csrf_token %}
+            <h4>name: {{ form.name }}</h4>
+            <span>{{ name.device.help_text }}</span>
 
             <h3>[input]</h3>
     
@@ -47,6 +49,9 @@
 
             <h4>mountPoint: {{ form.mountPoint }}</h4>
             <div>{{ form.mountPoint.help_text }}</div>
+
+            <h4>password: {{ form.password }}</h4>
+            <div>{{ form.password.help_text }}</div>
 
 
             <button type="submit" class="save btn btn-default">Guardar</button>
