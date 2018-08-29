@@ -76,7 +76,7 @@ class Config(models.Model):
 	quality= models.DecimalField(choices=QUALITY_CHOICES,default=1.0,max_digits=2,decimal_places=1,help_text="Calidad de la codificación, 1.0 máxima calidad")
 	channel_icecast= models.PositiveSmallIntegerField(choices=CHANNEL_CHOICES,default=2,help_text="Número de canales de la salida, mono o estéreo")
 	bitrate= models.PositiveSmallIntegerField(choices=BITRATE_CHOICES,default=128,help_text="Tasa de bits por segundo de la codificación")
-	server= models.URLField(help_text="URL del servidor Icecast")
+	server= models.CharField(help_text="URL o IP del servidor Icecast, sin http / https",max_length=20)
 	port = models.PositiveSmallIntegerField(default=8000,help_text="Puerto del servidor Icecast")
 	password= models.CharField(max_length=20,help_text="Clave para conectar al servidor Icecast")
 	mountPoint= models.CharField(max_length=20,help_text="Punto de montaje en servidor Icecast")

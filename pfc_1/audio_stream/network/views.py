@@ -15,7 +15,7 @@ from network.form import WifiForm
 
 
 def index (request):
-        return render(request, 'network/index.html')
+        return render(request, 'index.html')
 
 
 
@@ -58,7 +58,13 @@ def network_status(request):
     con_info=[]
     name_connection=[]
     type_connection=[]
+
+    darkice_status=True
     
+    if subprocess.call("ps aux |grep -v grep| grep darkice",shell=True)==1:
+        darkice_status=False
+
+
     if status:
         i=0
         
@@ -70,7 +76,7 @@ def network_status(request):
              i += 1
 
        #El nombre de la conexión también se obtiene con ubprocess.Popen("nmcli con show -a", shell=True, stdout=subprocess.PIPE).communicate()[0].decode().split()[4]
-    return render(request, 'network/network.html',{'status':status,'stream':stream,'name_connection':name_connection,'type_connection':type_connection})
+    return render(request, 'network/network.html',{'status':status,'stream':stream,'name_connection':name_connection,'type_connection':type_connection,'darkice_status':darkice_status})
 
 
 def existing_wifi(request, Wifi_SSID):
@@ -98,8 +104,7 @@ def connect_wifi(request,Wifi_SSID):
        return redirect ('network/wifi/fail/', Wifi_SSID)
        
     else:
-       return redirect('/network/index') 
-
+       return redirect('/network/status')
 
 def failed_wifi(request,Wifi_SSID):
        return render(request, 'network/cant_connect_wifi.html', {'wifi_SSID':Wifi_SSID}) 

@@ -2,7 +2,7 @@
 {% load custom_tags%} 
 
     {% block content %}
-        <h2>Mostrando estado de la red</h2>
+        <h2>Mostrando estado del sistema</h2>
  
         <head>
                 <style>
@@ -53,6 +53,11 @@
         <body>
                 
                 <h2>Estado de la red</h2>
+                {% if not status  %}
+                <h4><a href="/network/wifi">No se dispone de coneixión, conéctese a otra wifi</a></h4>
+                {% endif %}
+
+
                 
                 <table>
                   <tr>
@@ -67,42 +72,71 @@
                             <td><span class="reddot"></span></td>
                         {% endif %}
                    </tr>
-                   <tr>
-                           <td>URL de Icecast</td>
-                         {% if  stream  %} 
-                           <td><span class="greendot"></span></td>
-                         {% else %}  
-                            <td><span class="reddot"></span></td>
-                         {% endif %}
-
-
-     
-             
+                   
                 </table> 
          <body>
 
-
-            <body>
+        
+                <body>
                     
-                    <h2>Conexiones de red activas</h2>
-                    
-                    <table>
-                      <tr>
-                        <th>NOMBRE DE RED</th>
-                        <th>TIPO</th>
-                      </tr>
-                      <tr>
-                            {% for name in name_connection %}  
-                            {% for type in type_connection %} 
-                                  <td>{{ name}}</td>
-                                  <td>{{ type}}</td>
-                            {% endfor %}
-                            {% endfor %}
+                        <h2>Conexiones de red activas</h2>
+                        
+                        <table>
+                          <tr>
+                            <th>NOMBRE DE RED</th>
+                            <th>TIPO</th>
+                          </tr>
+                          <tr>
+                                {% for name in name_connection %}  
+                                {% for type in type_connection %} 
+                                      <td>{{ name}}</td>
+                                      <td>{{ type}}</td>
+                                {% endfor %}
+                                {% endfor %}
+    
+                          </tr>
+                     
+                        </table> 
+                 <body>
 
-                      </tr>
-                 
-                    </table> 
-             <body>
+                <body>
+                
+                        <h2>Darkice</h2>
+
+                        {% if not darkice_status %}
+                        <h4><a href="/config_list">Darkice no está arrancado, aplique una configuración para arrancarlo</a></h4>
+                        {% endif %}
+    
+                        <table>
+                          <tr>
+                            <th>ITEM</th>
+                            <th>ESTADO</th>
+                          </tr>
+                          <tr>
+                                <td>Proceso Darkice</td>
+                                {% if  darkice_status  %}
+                                    <td><span class="greendot"></span></td>
+                                {% else %}
+                                    <td><span class="reddot"></span></td>
+                                {% endif %}
+                           </tr>
+                           <tr>
+                                   <td>URL de Icecast</td>
+                                 {% if  stream  %} 
+                                   <td>
+                                       <span class="greendot"></span></td>
+                                 {% else %}  
+                                    <td><span class="reddot"></span></td>
+                                 {% endif %}
+        
+        
+             
+                     
+                        </table> 
+                 <body>
+        
+
+
                 {% if messages %}
                 <li>Can't connect to the wifi</li>
 
@@ -111,5 +145,8 @@
                 {% endfor %}
                 {% endif %}
 
+              
+
+                <h3></h3>
               
     {% endblock %}

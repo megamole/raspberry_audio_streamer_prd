@@ -118,26 +118,27 @@ def apply (request,config_id):
             )
     file.close()
 
-    command="darkice -c " + file_name
+    command="darkice -c " + '/home/chema/.WORK/pfc_1/audio_stream/'+file_name + '&'
    
-    os.system("pkill darkice")
+    os.system("killall darkice")
 
     # arrancamos el darkice, si arranca correctamente no habrá mensaje de error
 
     p=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     #for line in io.TextIOWrapper(p.stdout, encoding="utf-8"):
                   #messages.info(request,p.line)
-    
-    if subprocess.Popen("ps aux |grep -v grep| grep darkice",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0]!=b'':
 
-        return HttpResponse("La configuracion se ha aplicado correctamente")
+    is_dark_ice_running="ps aux |grep -v grep| grep darkice"
+    
+    if subprocess.call(is_dark_ice_running,shell=True)==1:
+          #se puede mejorar la presentacion de mensaje de error
+        messages.error(request, 'Error al intentar arrancer DARKICE con la configuración ' + configuration.name)
+        messages.error(request,p.stdout.readlines()[-1])
     
     else:
-        #se puede mejorar la presentacion del mensaje de error
-        print("no arranca esta mierda")
-        messages.error(request, 'Error al intentar arrancer DARKICE')
-        messages.error(request,p.stdout.readlines()[-1])
-        return redirect("/config_list/")
+       print("Arrancado correctamente")
+
+    return redirect("/config_list/")
 
 
 
@@ -164,7 +165,7 @@ def start_darkice(request):
     if request.method == 'POST':
         os.system("darkice")
         #time.sleep(10)
-        if subprocess.Popen("ps aux |grep -v grep| grep darkice2| awk '{print $2}'",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0]==b'':
+        if subprocess.Popen("ps aux |grep -v grep| grep darkice| awk '{print $2}'",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0]==b'':
         #if (os.system("ps aux |grep -v grep| grep darkice2| awk '{print $2}'"))=="":
             print ("proceso no arrancado correctamente")
         else:
@@ -177,7 +178,7 @@ def stop_darkice(request):
 
     if request.method == 'POST':
         #os.system("ps aux |grep -v grep| grep darkice| awk '{print $2}'|xargs kill")
-        os.system("pkill darkice2")
+        os.system("pkill darkice")
 
     #else:
     #    form=PostForm()  necesito aqui otro form no PostForm()

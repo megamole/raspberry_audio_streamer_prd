@@ -1,26 +1,35 @@
 {% extends "darkice/base.html" %}
 
     {% block content %}
+    <a aria-setsize="18" href=/config/new/>Crear nueva configuracion</a>
 
         {% if configuration_list %}
-            {% for config in configuration_list%}
+          {% for config in configuration_list%}
                 <h4>Nombre: {{ config.name }}</h4>
                 <li>URL Icecast: {{ config.server }}</li>
                 <form action="apply/{{ config.pk }}" method="POST" class="post-form">
                 {% csrf_token %}           
                 <button type="submit" class="save btn btn-default">Aplicar</button>
                 </form>
-                {% if messages %}
-                {% for message in messages %}
-                  <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
-                {% endfor %}
-            {% endif %}
-        
-              <a href=/config/{{ config.pk }}/>Vista detallada</a> 
+                <a href=/config/{{ config.pk }}/>Vista detallada</a> 
             {% endfor %}
+
         {% else %}
             <li>No hay ninguna configuración creada</li>
-            <a href=/config/new/>Crear configuracion</a> 
         {% endif %}
 
-    {% endblock %}
+        {% if messages %}
+
+        {% for message in messages %}
+          <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+        {% endfor %}
+
+         {% endif %} 
+
+
+<button onclick="window.history.back();" class="btn btn-default" type="button">Volver</button>
+       
+ {% endblock %}
+
+
+
