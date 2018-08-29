@@ -5,6 +5,8 @@ import subprocess
 from django.http import Http404,HttpResponse
 from django.shortcuts import render,get_object_or_404,redirect
 from urllib.request import urlopen
+from django.contrib import messages
+
 import darkice.utils
 from network.models import Wifi,__str__
 from network.form import WifiForm
@@ -85,17 +87,22 @@ def existing_wifi(request, Wifi_SSID):
 
 
 def connect_wifi(request,Wifi_SSID):
+    wifi=Wifi.objects.get(SSID=Wifi_SSID)
+    cmd = "nmcli d wifi connect " + wifi.SSID + " password " + wifi.password
+    output=subprocess.check_output(cmd,shell=True)
 
- wifi=Wifi.objects.get(SSID=Wifi_SSID)
- cmd = "nmcli d wifi connect " + wifi.SSID + " password " + wifi.password
- output=subprocess.check_output(cmd,shell=True)
+    if b'failed:' in output.split():
+       wifi.delete()
+       messages.error(request, 'Error al intentar conectar a ' + Wifi_SSID)
+       messages.error(request,output)
+       return redirect ('network/wifi/fail/', Wifi_SSID)
+       
+    else:
+       return redirect('/network/index') 
 
- if b'failed:' in output.split():
-    wifi.delete()
-    return redirect('/network/wifi') 
- else:
-    return HttpResponse ("Conectado a " + Wifi_SSID)
 
+def failed_wifi(request,Wifi_SSID):
+       return render(request, 'network/cant_connect_wifi.html', {'wifi_SSID':Wifi_SSID}) 
 
 
 def submit_wifi_details(request,Wifi_SSID):
@@ -109,12 +116,11 @@ def submit_wifi_details(request,Wifi_SSID):
           new_wifi.SSID=Wifi_SSID
           new_wifi.save()
           connect_wifi(request,Wifi_SSID)
-          return redirect('/network/status') 
+         
 
 
         else: raise Http404 
     
     else:
         form = WifiForm()
-    
     return render(request, 'network/connect_wifi.html', {'form': form,'wifi_SSID':Wifi_SSID})

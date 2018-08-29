@@ -4,14 +4,19 @@
 
         {% if configuration_list %}
             {% for config in configuration_list%}
-                <li>Nombre: {{ config.name }}</li>
+                <h4>Nombre: {{ config.name }}</h4>
                 <li>URL Icecast: {{ config.server }}</li>
                 <form action="apply/{{ config.pk }}" method="POST" class="post-form">
                 {% csrf_token %}           
                 <button type="submit" class="save btn btn-default">Aplicar</button>
                 </form>
+                {% if messages %}
+                {% for message in messages %}
+                  <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+                {% endfor %}
+            {% endif %}
         
-              <a href=/config/{{ config.pk }}/>Detailed view</a> 
+              <a href=/config/{{ config.pk }}/>Vista detallada</a> 
             {% endfor %}
         {% else %}
             <li>No hay ninguna configuración creada</li>

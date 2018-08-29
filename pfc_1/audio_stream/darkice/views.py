@@ -41,11 +41,13 @@ def edit_configuration(request,config_id):
           new_config.port=form.cleaned_data['port']
           new_config.mountPoint=form.cleaned_data['mountPoint']
           new_config.save()  
+    
+        return redirect('/config/'+config_id) 
+
 
     else:
-          form = PostForm(instance=new_config)
-
-    return render(request, 'darkice/config_edit.html', {'form': form})
+        form = PostForm(instance=new_config)
+        return render(request, 'darkice/config_edit.html', {'form': form})
     
 
 def submit_configuration(request):
@@ -132,8 +134,9 @@ def apply (request,config_id):
     
     else:
         #se puede mejorar la presentacion del mensaje de error
-        messages.info(request, 'Error al intentar arrancer DARKICE')
-        messages.info(request,p.stdout.readlines()[-1])
+        print("no arranca esta mierda")
+        messages.error(request, 'Error al intentar arrancer DARKICE')
+        messages.error(request,p.stdout.readlines()[-1])
         return redirect("/config_list/")
 
 

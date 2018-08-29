@@ -103,6 +103,13 @@
                  
                     </table> 
              <body>
+                {% if messages %}
+                <li>Can't connect to the wifi</li>
+
+                {% for message in messages %}
+                  <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+                {% endfor %}
+                {% endif %}
 
               
     {% endblock %}

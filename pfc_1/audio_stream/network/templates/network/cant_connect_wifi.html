@@ -1,0 +1,9 @@
+{% extends "network/base_generic.html" %}
+
+        <li>Can't connect to {{ Wifi_SSID }}</li>
+        <button onclick="window.history.back();" class="btn btn-default" type="button">Cancelar</button>
+        {% if messages %}
+        {% for message in messages %}
+          <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+        {% endfor %}
+       {% endif %}

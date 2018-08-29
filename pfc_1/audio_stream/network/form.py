@@ -7,6 +7,7 @@ class WifiForm (forms.ModelForm):
    # para que asi form.is_valid() no espere que se le pase
 
    SSID = forms.CharField(required=False)
+
    class Meta:
             model = Wifi
             fields = ['SSID','password']

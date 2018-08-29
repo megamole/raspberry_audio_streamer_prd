@@ -11,6 +11,7 @@
         {% csrf_token %}           
         <button type="submit" class="save btn btn-default">Conectar</button>
       </form>
+
     {% endfor %}
     
     {% for wifi_network in wifi_list_not_on_db %}
@@ -19,6 +20,7 @@
           {% csrf_token %}           
           <button type="submit" class="save btn btn-default">Conectar</button>
         </form>
+   
     {% endfor %}
 
 
