@@ -15,7 +15,7 @@ from network.form import WifiForm
 
 
 def index (request):
-        return render(request, 'index.html')
+        return render(request, 'network/index.html')
 
 
 
