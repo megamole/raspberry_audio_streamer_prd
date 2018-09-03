@@ -4,9 +4,22 @@
     {% block content %}
     <style>
 
+    h1 {
+        color:darkred;
+        font-size: large;
+        text-align: center;
+        font-weight: bold;
+    }
+    
     h3 {
         color: green;
     }
+    
+    h4 {
+        color:darkblue;
+    }
+
+
     </style>
     <style>
       fieldset {
@@ -19,10 +32,17 @@
        border-radius: 4px;
       }
 
+      h3:hover {
+        color: #064579;
+    } 
+
 
     </style>
     
-    <main></main>
+    
+
+   <h1>Lista de configuraciones darkice disponibles<h1>
+
     <center><a href=/config/new/><h3>Crear nueva configuracion</h3></a>
     </center>
 
@@ -36,7 +56,10 @@
           <fieldset>
 
                 <a href=/config/{{ config.pk }} >{{ config.name }} </a>
-                                
+                <br> 
+                <br>              
+                <br>              
+             
                 <form action="apply/{{ config.pk }}" method="POST" class="post-form">
                 {% csrf_token %}           
                 <button type="submit" class="save btn btn-default">Aplicar</button>
@@ -61,7 +84,7 @@
         {% endfor %}
 
          {% endif %} 
-<center><p>Haz click en el nombre de la configuración para una vista detallada</p></center>
+<center><h4>Haz click en el nombre de la configuración para una vista detallada</h4></center>
 </main> 
 
  {% endblock %}

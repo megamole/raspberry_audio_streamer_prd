@@ -162,17 +162,21 @@ def delete (request,config_id):
 
 
 def start_darkice(request):
-    if request.method == 'POST':
-        os.system("darkice")
+    #el código que vemos abajo estaba pensado para arrancar el proceso darkice con
+    #la configuracón por defecto. Al final lo he cambiado para que simplemente redirija
+    #a la lista de configuraciones, donde podremos aplicar la que queramos o crear una nueva
+
+    #if request.method == 'POST':
+    #    os.system("darkice")
         #time.sleep(10)
-        if subprocess.Popen("ps aux |grep -v grep| grep darkice| awk '{print $2}'",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0]==b'':
+    #    if subprocess.Popen("ps aux |grep -v grep| grep darkice| awk '{print $2}'",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()[0]==b'':
         #if (os.system("ps aux |grep -v grep| grep darkice2| awk '{print $2}'"))=="":
-            print ("proceso no arrancado correctamente")
-        else:
-             print ("proceso corriendo")
+    #        print ("proceso no arrancado correctamente")
+    #    else:
+    #         print ("proceso corriendo")
     #else:
     # form=PostForm() necesito aqui otro form no PostForm()
-    return HttpResponse("Proceso arrancado")
+    return redirect ("/config_list/")
 
 def stop_darkice(request):
 
@@ -182,5 +186,5 @@ def stop_darkice(request):
 
     #else:
     #    form=PostForm()  necesito aqui otro form no PostForm()
-    return HttpResponse("Proceso detenido")
+    return HttpResponse("Si el proceso estaba corriendo ha sido detenido")
 

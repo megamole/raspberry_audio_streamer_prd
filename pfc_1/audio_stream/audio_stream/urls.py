@@ -21,14 +21,11 @@ from network.views import network_status,list_wifi,submit_wifi_details,connect_w
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #url(r'^config/$', index, name='index'),
-    #url(r'^config/<int:config_id>/', detail, name='detail'),
     url(r'^$', index, name='index'),
 
     url(r'^config/(\d+)/$', detail, name='detail'),
     url(r'^config/delete/(\d+)$', delete, name='delete'),
     url(r'^config/edit/(\d+)/$', edit_configuration, name='edit_configuration'),
-    #url(r'^config/edit/(?P<name>\w+)$', edit_configuration, name='edit_configuration'),
     url(r'^config_list/$', list_configuration, name='list_configuration'),
     url(r'^config/new/$', submit_configuration, name='submit_configuration'),
     url(r'^config_list/apply/(\d+)$', apply, name='apply'),

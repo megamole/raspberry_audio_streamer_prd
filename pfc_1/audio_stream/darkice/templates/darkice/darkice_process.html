@@ -3,11 +3,17 @@
     {% block content %}
         <h1>Proceso DARKICE</h1>
         <form action="start" method="POST" class="post-form">
-            {% csrf_token %}           
+            {% csrf_token %}   
+            <p>Para arrancar el proceso hemos de aplicar una configuración</p>        
             <button type="submit" class="save btn btn-default">Arrancar Darkice</button>
         </form>
         <form action="stop" method="POST" class="post-form">
             {% csrf_token %}           
             <button type="submit" class="save btn btn-default">Detener Darkice</button>
         </form>
+
+       <br><br><br>
+
+        <button onclick="window.history.back();" class="btn btn-default" type="button">Volver</button>
+
     {% endblock %}
