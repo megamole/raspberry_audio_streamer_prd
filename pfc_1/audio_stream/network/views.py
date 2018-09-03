@@ -95,12 +95,15 @@ def existing_wifi(request, Wifi_SSID):
 def connect_wifi(request,Wifi_SSID):
     wifi=Wifi.objects.get(SSID=Wifi_SSID)
     cmd = "nmcli d wifi connect " + wifi.SSID + " password " + wifi.password
-    output=subprocess.check_output(cmd,shell=True)
+    output=subprocess.call(cmd,shell=True)
 
-    if b'failed:' in output.split():
+    if output!=0:
        wifi.delete()
        messages.error(request, 'Error al intentar conectar a ' + Wifi_SSID)
-       messages.error(request,output)
+       if output==10:
+           messages.error (request,"No existe el SSID")
+       else: 
+           messages.error(request,output)
        return redirect ('network/wifi/fail/', Wifi_SSID)
        
     else:
@@ -119,7 +122,8 @@ def submit_wifi_details(request,Wifi_SSID):
 
           new_wifi.password=form.cleaned_data['password']
           new_wifi.SSID=Wifi_SSID
-          new_wifi.save()
+          if not Wifi.objects.filter(SSID=Wifi_SSID).exists():
+             new_wifi.save()
           connect_wifi(request,Wifi_SSID)
          
 
