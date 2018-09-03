@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+
+  
+  {% block title %}<title>Raspberry Pi Audiostream</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/network/css/base.css" />
+  <link rel="stylesheet" type="text/css" href="/static/network/css/dashboard.css" />
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/static/network/css/responsive.css" />
+   <meta name="robots" content="NONE,NOARCHIVE" />
+
+  </head>
+  <!-- Add additional CSS in static file -->
+ <link rel="stylesheet" href="{% static 'network/css/styles.css' %}">
+
+ <style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+    
+    .sidenav {
+        float:left;
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 20px;
+        left: 10px;
+        background: rgb(25, 131, 25);
+        overflow-x: hidden;
+        padding: 8px 0;
+    }
+    
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        color:white;
+        display: block;
+    }
+    
+    .sidenav a:hover {
+        color: #064579;
+    }
+    
+    .main {
+        margin-left: 1px; /* Same width as the sidebar + left position in px */
+        font-size: 28px; /* Increased text to enable scrolling */
+        padding: 0px 10px;
+    }
+    
+    @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 14px;}
+    }
+    </style>
+
+<style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: red;
+            color: white;
+            text-align: center;
+        }
+        </style>
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-sm-2">
+      {% block sidebar %}
+      <div class="sidenav">
+          <a href="{% url 'index' %}">Menú principal</a>
+          <a href="/config_list">Configuraciones Darkice</a>
+          <a href="/network/wifi">Wifis disponibles</a>
+          <a href="/network/status">Estado del sistema</a>
+      </div>
+      {% endblock %}
+      
+      </div>
+    </div>
+   
+  </div>
+  {% block content %}
+  {% endblock %}
+
+</body>
+</html>

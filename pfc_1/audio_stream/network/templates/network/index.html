@@ -7,6 +7,17 @@
 
 
 {% block content %}
-<h1>Raspberry Pi Audiostream</h1>
-<p>Bienvenido al <em>menú de configuración</em></p>
+{% load static %}
+<div class="main"></div>
+<center style="color:blue;">
+    <h2>Raspberry Pi Audiostream</h2>
+</center>
+<center style="color:green;" aria-setsize="16">Bienvenido al menú de configuración"</center>
+<br>
+<br>
+<img src="{% static "network/images/raspberry-pi-logo.png" %}" >
+<br>
+<img src="{% static "network/images/radio.jpg" %}" >
+</div>
+
 {% endblock %}

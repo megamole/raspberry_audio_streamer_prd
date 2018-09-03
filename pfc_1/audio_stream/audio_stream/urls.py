@@ -36,7 +36,6 @@ urlpatterns = [
     url(r'^darkice/$', darkice_process, name='darkice_process'),
     url(r'^darkice/stop$', stop_darkice, name='stop_darkice'),
     url(r'^darkice/start$', start_darkice, name='start_darkice'),
-    url(r'^network/wifi/fail$',failed_wifi , name='failed_wifi'),
     url(r'^network/wifi/fail/(?P<Wifi_SSID>\w+)$',failed_wifi , name='failed_wifi'),
 
     url(r'^network/status$', network_status, name='network_status'),    

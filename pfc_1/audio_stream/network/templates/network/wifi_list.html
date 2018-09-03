@@ -1,27 +1,50 @@
-{% extends "network/base.html" %} 
+{% extends "network/base_generic.html" %} 
 
 
 
   {% block content %}
+  <head>
+      <style>
+      table, th, td {
+          border: 1px solid black;
+      }
+      </style>
+  </head>
 
-     
+
+  <center>
+ 
     {% for wifi_network in wifi_list_on_db %}
-      <li>{{ wifi_network }}</li>
-      <form action="connecting/{{ wifi_network }}" method="POST" class="post-form">
-        {% csrf_token %}           
-        <button type="submit" class="save btn btn-default">Conectar</button>
-      </form>
+    <br>
+    <fieldset>
+             <p>{{ wifi_network }}</p>
+      
+              <form action="connecting/{{ wifi_network }}" method="POST" class="post-form">
+                 {% csrf_token %}           
+                 <button style="display:inline" type="submit" class="save btn btn-default">Conectar</button>
+              </form>
+    </fieldset>
+    <br>
 
     {% endfor %}
-    
-    {% for wifi_network in wifi_list_not_on_db %}
-        <li>{{ wifi_network }}</li>
-        <form action="connect/{{ wifi_network }}" method="GET" class="post-form">
-          {% csrf_token %}           
-          <button type="submit" class="save btn btn-default">Conectar</button>
-        </form>
-   
-    {% endfor %}
+</center>
+
+  {% for wifi_network in wifi_list_not_on_db %}
+  <br>
+<center>
+        <fieldset>
+                <p>{{ wifi_network }}</p>
+         
+                 <form action="connect/{{ wifi_network }}" method="GET" class="post-form">
+                    {% csrf_token %}           
+                    <button style="display:inline" type="submit" class="save btn btn-default">Conectar</button>
+                 </form>
+       </fieldset>
+</center>
+
+  {% endfor %}
+
+
 
 
   {% endblock %}

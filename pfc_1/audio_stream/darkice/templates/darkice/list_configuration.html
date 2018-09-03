@@ -1,21 +1,57 @@
-{% extends "darkice/base.html" %}
+{% extends "darkice/base_generic.html" %}
+
 
     {% block content %}
-    <a aria-setsize="18" href=/config/new/>Crear nueva configuracion</a>
+    <style>
+
+    h3 {
+        color: green;
+    }
+    </style>
+    <style>
+      fieldset {
+       min-width: auto;
+       min-height: 0%;
+       display: inline-block;
+       margin: 8px;
+       border: 3px solid rebeccapurple;
+       padding: 8px;    
+       border-radius: 4px;
+      }
+
+
+    </style>
+    
+    <main></main>
+    <center><a href=/config/new/><h3>Crear nueva configuracion</h3></a>
+    </center>
+
+    <br><br>
+
 
         {% if configuration_list %}
+        <center>
           {% for config in configuration_list%}
-                <h4>Nombre: {{ config.name }}</h4>
-                <li>URL Icecast: {{ config.server }}</li>
+
+          <fieldset>
+
+                <a href=/config/{{ config.pk }} >{{ config.name }} </a>
+                                
                 <form action="apply/{{ config.pk }}" method="POST" class="post-form">
                 {% csrf_token %}           
                 <button type="submit" class="save btn btn-default">Aplicar</button>
                 </form>
-                <a href=/config/{{ config.pk }}/>Vista detallada</a> 
+                                 
+          <br>
+          <br>
+         <br> 
+            </fieldset>    
+            
             {% endfor %}
-
+            </center>
         {% else %}
             <li>No hay ninguna configuración creada</li>
+
         {% endif %}
 
         {% if messages %}
@@ -25,10 +61,9 @@
         {% endfor %}
 
          {% endif %} 
+<center><p>Haz click en el nombre de la configuración para una vista detallada</p></center>
+</main> 
 
-
-<button onclick="window.history.back();" class="btn btn-default" type="button">Volver</button>
-       
  {% endblock %}
 
 

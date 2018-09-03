@@ -1,6 +1,8 @@
-{% extends "network/base.html" %}
+{% extends "network/base_generic.html" %}
 
     {% block content %}
+    <div class="main"></div>
+    <center>
         <h1>Conectar a WIFI {{wifi_SSID}}</h1>
         <form action=/network/connect/{{wifi_SSID}} method="POST" class="post-form">
             {% csrf_token %}
@@ -13,4 +15,6 @@
                   <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
                 {% endfor %}
         {% endif %}
+    </center>
+    </div>
     {% endblock %}

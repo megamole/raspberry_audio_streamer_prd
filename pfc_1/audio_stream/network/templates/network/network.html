@@ -1,10 +1,18 @@
-{% extends "network/base.html" %}
+{% extends "network/base_generic.html" %} 
 {% load custom_tags%} 
 
     {% block content %}
-        <h2>Mostrando estado del sistema</h2>
+    <div class="main">
+
+    <h2 style="color:blue;">Mostrando estado del sistema</h2>
  
         <head>
+
+                <style>
+                        body {
+                            background-color: rgb(239, 243, 239);
+                        }
+                        </style>
                 <style>
                     .reddot {
                         height: 25px;
@@ -146,7 +154,5 @@
                 {% endif %}
 
               
-
-                <h3></h3>
-              
+    </div>
     {% endblock %}

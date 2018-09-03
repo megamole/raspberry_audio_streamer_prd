@@ -1,0 +1,190 @@
+﻿Herramientas :
+
+Control de versiones usando GIT
+
+configurar
+   1 - streaming – darkice – editar xml – formato tipo plantilla – sustitucion de cadenas
+                        bitrate
+                        puerto
+                        URL icecast
+                        contraseña
+  2 -  red
+- o configuracion ethernet o wifi (ssid, password, tipo de authenticacion)
+- mscar
+- IP estatica o dinamica
+mejora que para la wifi se consulte y mire las wifi que hay y pilla la configuracion – network manager
+ 
+
+- portal cautivo –
+               levantar una wifi  pistreaming sin contraseña
+               cualquier consulta redirija a la pagina web 
+
+https://docs.djangoproject.com/es/2.0/intro/tutorial01/
+
+
+
+
+python manage.py startapp darkice_conf
+
+
+
+
+from django.http import HttpResponse
+
+
+def index(request):
+    return HttpResponse("Hola, bienvenido a la configuración darkice")
+
+path('admin/', admin.site.urls),
+
+source ~/.WORK/django/virtualenv/bin/activate
+
+https://tutorial.djangogirls.org/es/django_start_project/
+
+Siguiente paso crear modelo, con los campos que necesito para cambiar la configuracion del dark ice. 
+
+
+
+
+
+
+
+
+
+DARKICE CONFIG FILE
+
+/home/chema/Descargas/darkice-1.3/darkice.cfg
+
+
+[input]
+device          = /dev/dsp  # OSS DSP soundcard device for the audio input
+sampleRate      = 22050     # sample rate in Hz. try 11025, 22050 or 44100
+
+
+
+
+bitsPerSample   = 16        # bits per sample. try 16
+channel         = 2         # channels. 1 = mono, 2 = stereo
+
+
+[icecast2-0]
+bitrateMode     = abr       # average bit rate
+format          = vorbis    # format of the stream: ogg vorbis
+bitrate         = 96        # bitrate of the stream sent to the server
+server          = yp.yourserver.com
+
+port            = 8000      # port of the IceCast server, usually 8000
+password        = hackme    # source password to the IceCast server
+mountPoint      = sample96  # mount point of this stream on the IceCast server
+name            = DarkIce trial
+                            # name of the stream
+description     = This is only a trial
+                            # description of the stream
+url             = http://www.yourserver.com
+
+
+[icecast2-0]
+# The audio format to encode to, we're using mp3 here
+format          = mp3
+
+# The bit rate mode to use, the commented out lines are for a fixed bit
+# rate "constant bit rate" at 16 bits.  I prefer the variable bit rate
+# for the sound quality it has and the throughput is very similar on avg
+
+#bitrateMode    = cbr (do not use vbr)
+bitrate        = 32 # (16 for mono feeds, 32 for stereo feeds)
+
+bitrateMode     = cbr # (do not use vbr)
+
+# Quality at .1, max is 1.0, but as you increase, so does the bandwidth
+# used.  For mono scanner audio .1 is totally fine.
+quality         = 0.1
+
+# Takes the input and mixes it down to a mono output for the feed.
+channel         = 1
+
+# Cuts frequency response over 5kHz.  For scanner feed this mostly
+# eliminates hiss and harshness on paging tones.  Saves a bunch of
+# bandwidth as well.
+
+lowpass         = 5000
+
+# Server shown on your RR feed owner page that hosts your feed
+# You need to log in to RR, go to Account -> My Live Audio Feeds ->
+# click the feed owner page icon at the far right of your feed listing.
+# Then you will see all this information.
+
+# From Feed Technical Details, the "Server"
+server          = localhost
+
+# From Feed Technical Details, the "Port"
+port            = 8000      # port of the IceCast server, usually 8000
+
+# From Feed Technical Details, the Password exactly as shown
+password        = 26681/Ia 
+
+# From Feed Technical Details, the mount...remove the leading "/", it's
+# not needed in this file.  So if it is /999999 make it just 999999
+mountPoint      = mystream.mp3 
+
+# name of the stream
+# On My Live Audio Feeds, it's the first part ending in a colon ":"
+name            = mystream 
+
+               
+
+leer de db
+
+creamos conexion
+
+import sqlite3
+conn = sqlite3.connect(sqlite_file)
+c = conn.cursor()
+where the database file (sqlite_file) can reside anywhere on our disk, e.g.,
+sqlite_file = '/Users/Sebastian/Desktop/my_db.sqlite'
+
+
+  
+
+
+  >>> c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+<sqlite3.Cursor object at 0x7f5f1c407c00>
+>>> print(c.fetchall())
+[('django_migrations',), ('sqlite_sequence',), ('auth_group',), ('auth_group_permissions',), ('auth_user_groups',), ('auth_user_user_permissions',), ('django_admin_log',), ('django_content_type',), ('auth_permission',), ('auth_user',), ('django_session',)] 
+   
+
+
+
+
+
+vista con las configuraciones, elegir la que aplicas y activar la que quieras
+
+*++++ un fichero con cada configuracion y decirle al darkice cual es el que tiene que aplicar
+
+boton arrancar y apagar darkice – fchero darkice_pid 
+
+
+
+file.write('[general]\n'+'duration = 0\n'+
+'bufferSecs = 1\n'+'reconnect = yes\n'+'\n[input]\n'+
+'device = '+configuration.device+
+'\n'+'sampleRate = '+str(configuration.sampleRate)+
+'\n'+'bitsPerSample = '+str(configuration.bitsPerSample)+'\n'+
+'channel = '+str(configuration.channel)+
+'\n\n[icecast2-0]\n'+
+'format = '+configuration.format1+'\n'+
+'bitrate = '+str(configuration.bitrate)+'\n'+
+'bitrateMode = '+configuration.bitrateMode+'\n'+
+'quality = '+str(configuration.quality)+'\n'+
+'channel = '+str(configuration.channel)+
+'\nlowpass = 5000\n'+
+'server = '+configuration.server+'\n'+
+'port = '+str(configuration.port)+'\n'+
+'password = '+configuration.password+'\n'+
+'mountPoint = '+configuration.mountPoint+
+'\nname = mystream'+ 
+'\ndescription ='+ 
+'\nurl = localhost'+
+'\ngenre = Scanner'+
+'\npublic = yes')
+

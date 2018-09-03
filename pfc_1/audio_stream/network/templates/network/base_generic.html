@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load static %}
+
   
   {% block title %}<title>Raspberry Pi Audiostream</title>{% endblock %}
   <meta charset="utf-8">
@@ -16,9 +18,63 @@
 
   </head>
   <!-- Add additional CSS in static file -->
- {% load static %}
-
  <link rel="stylesheet" href="{% static 'network/css/styles.css' %}">
+ 
+ <style>
+    fieldset {
+     min-width: auto;
+     min-height: 0%;
+     display: inline-block;
+     margin: 8px;
+     border: 3px solid rebeccapurple;
+     padding: 8px;    
+     border-radius: 4px;
+    }
+
+
+  </style>
+ <style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+    
+    .sidenav {
+        float:left;
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 20px;
+        left: 10px;
+        background: rgb(25, 131, 25);
+        overflow-x: hidden;
+        padding: 8px 0;
+    }
+    
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        color:white;
+        display: block;
+    }
+    
+    .sidenav a:hover {
+        color: #064579;
+    }
+    
+    .main {
+        margin-left: 180px; /* un poco más que la sidebar en px */
+        font-size: 28px; /* se incrementa el tamaño para permitir scrolling */
+        padding: 0px 10px;
+    }
+    
+    @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 14px;}
+    }
+    </style>
 
 </head>
 
@@ -29,12 +85,12 @@
     <div class="row">
       <div class="col-sm-2">
       {% block sidebar %}
-      <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Menú principal</a></li>
-          <li><a href="/config_list">Configuraciones Darkice</a></li>
-          <li><a href="/network/wifi">Wifis disponibles</a></li>
-          <li><a href="/network/status">Estado de la red</a></li>
-
+      <div class="sidenav">
+          <a href="{% url 'index' %}">Menú principal</a>
+          <a href="/config_list">Configuraciones Darkice</a>
+          <a href="/network/wifi">Wifis disponibles</a>
+          <a href="/network/status">Estado del sistema</a>
+      </div>
       {% endblock %}
       
       </div>

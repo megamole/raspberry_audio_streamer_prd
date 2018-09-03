@@ -1,0 +1,16 @@
+﻿
+Conecto el cable ethernet en la raspberry y USB en el portatil
+
+
+
+conectar a Raspberry 
+   ssh pi@10.42.0.104
+
+
+creando punto de acceso, usando 
+https://www.raspberrypizaragoza.es/convierte-tu-raspberry-pi-en-un-punto-de-acceso-wifi/
+
+
+http://www.intellamech.com/RaspberryPi-projects/rpi_nmcli.html
+
+uso wlan1 que es la segunda wifi que tengo conectada por USB
